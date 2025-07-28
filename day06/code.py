@@ -1,7 +1,7 @@
 ### day-06
 # exercice 1
 # 1
-empty_tupe = ()
+empty_tuple = ()
 
 # 2
 sisters = ("francince", "hela")
