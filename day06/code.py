@@ -17,8 +17,9 @@ print(siblings)
 print(f"i have {len(siblings)} siblings")
 
 # 5
-parents = ("My-Father", "My-Mother")
+parents = ("My-Father-Name", "My-Mother-Name")
 familiy_members = (*siblings, *parents)
+print(familiy_members)
 
 # exercice 2
 # 1
