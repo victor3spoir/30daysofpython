@@ -1,18 +1,16 @@
 # Jour 2: 30 Days of Python Programming
 # exercice level 1
-first_name = "name"
-last_name = "nom de famille"
-full_name = "nom complet"
-country = "un pays quelconque"
-city = "une valeur aussi"
+first_name = "Son"
+last_name = "Goku"
+full_name = "Son Goku"
+country = "Whereland"
+city = "Wherecity"
 age = 99
 year = 2025
 is_married = True
 is_true = False
 is_light_on = False
-mutliple = True
-variable = "for_sure"
-last_one = "last"
+multiple, it_is_for, last = False, "sure", "one"
 
 # exercice level 2
 print(type(first_name))
@@ -25,9 +23,9 @@ print(type(year))
 print(type(is_married))
 print(type(is_true))
 print(type(is_light_on))
-print(type(mutliple))
-print(type(variable))
-print(type(last_one))
+print(type(multiple))
+print(type(it_is_for))
+print(type(last))
 print(len(first_name))
 print(len(first_name) == len(last_name))
 

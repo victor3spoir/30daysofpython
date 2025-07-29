@@ -43,10 +43,13 @@ m = (p_2[1] - p_1[1]) / (p_2[0] - p_1[0])
 euclidant_distance = math.sqrt((p_2[0] - p_1[0]) ** 2 + (p_2[1] - p_1[1]) ** 2)
 
 # 10
+print(2.0 == 2)
 
 # 11
 y = lambda x: x**2 + x * 6 + 9
 print("y is equal to 0 when x=3", y(-3))
+print("result is", -(3**2) + -3 * 6 + 9)
+
 
 # 12
 python_length = len("python")
@@ -76,7 +79,7 @@ result_18 = (7 // 3) == int(2.1)
 print(result_18)
 
 # 19
-result_19 = "10" == 10
+result_19 = type("10") == type(10)
 print(result_19)
 
 # 20
