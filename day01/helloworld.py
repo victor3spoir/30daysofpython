@@ -24,8 +24,9 @@ print("question-3")
 print("Victor" + " Espoir" + "Togo" + "je profite de 30 jours de python")
 
 ## question - 4
-print(type(10 // 9))
-print(type(8 // 3.14))
+print(type(10))
+print(type(9.8))
+print(type(3.14))
 print(type(4 - 4j))
 print(type(["Asabeneh", "Python", "Finlande"]))
 print(type("Victor" + " Espoir" + "Togo" + "je profite de 30 jours de python"))
