@@ -1,5 +1,8 @@
 ### exercice-level3
-person = {
+import typing
+
+
+person: dict[str, typing.Any] = {
     "first_name": "Asabeneh",
     "last_name": "Yetayeh",
     "age": 250,
@@ -11,17 +14,17 @@ person = {
 
 # *
 if "skills" in person.keys():
-    skills: list[str] = person.get("skills")
+    skills: list[str] = person.get("skills", [])
     print(skills[len(skills) // 2])
 
 # *
 if "skills" in person.keys():
-    skills: list[str] = person.get("skills")
+    skills: list[str] = person.get("skills", [])
     if "Python" in skills:
         print("He have Python skill")
 # *
 if "skills" in person.keys():
-    skills: list[str] = person.get("skills")
+    skills: list[str] = person.get("skills", [])
     if "JavaScript" in skills and "React" in skills:
         print("He is a front end developer")
     if "Node" in skills and "Python" in skills and "MongoDB" in skills:
@@ -31,7 +34,7 @@ if "skills" in person.keys():
     else:
         print("unknown title")
 # *
-if person.get("is_marred") and person.get("country") is "Finland":
+if person.get("is_marred") and person.get("country") == "Finland":
     full_name = f'{person.get("first_name")} {person.get("last_name")} '
     country = person.get("country")
     marital_status = "maried" if person.get("is_marred") is True else "not maried"
