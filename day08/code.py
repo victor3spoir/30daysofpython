@@ -18,7 +18,7 @@ student = {
     "gender": "male",
     "age": 30,
     "marital_status": "married",
-    "skills": ["strength", "speed", "smart", "devops"],
+    "skills": ["strength", "speed", "smart", "telekynesie"],
     "country": "somewhere-land",
     "city": "somewhere-city",
     "address": "23 Street of the Undeads",
