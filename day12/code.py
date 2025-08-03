@@ -76,7 +76,7 @@ def shuffle_list(data: list[typing.Any]):
 
 # 2
 def generate_seven_random_numbers():
-    return [random.choice(range(0, 10)) for _ in range(7)]
+    return random.sample(range(0, 10), 7)
 
 
 # print(generate_seven_random_numbers())
