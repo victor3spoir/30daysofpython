@@ -53,3 +53,9 @@ names = [
 ]
 fullnames = [f"{first} {last}" for sublist in names for first, last in sublist]
 print(fullnames)
+
+# 7
+slope_function = lambda x1, y1, x2, y2: (y2 - y1) / (x2 - x1)
+
+y_intercept_function = lambda m, x, y: m * x + y
+print(y_intercept_function(3, 0, 8))

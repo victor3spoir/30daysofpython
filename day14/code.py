@@ -145,4 +145,24 @@ print(
     list(sorted(countries_data, key=lambda country: country["population"])),
 )
 
+
 # TODO:the remaining part
+# most spoken
+world_languages: dict[str, int] = {}
+for country in countries_data:
+    country_lang: list[str] = country.get("languages", [])
+    for lang in country_lang:
+        world_languages.update({lang: world_languages.get(lang, 0) + 1})
+top_spoken_word_langages = dict(
+    sorted(world_languages.items(), key=lambda item: item[1], reverse=True)[:10]
+)
+print("10 most spoken language", top_spoken_word_langages)
+
+# print(most_spoken_languages())
+
+print(
+    "10 most populated",
+    list(
+        sorted(countries_data, key=lambda country: country["population"], reverse=True)
+    )[:10],
+)
