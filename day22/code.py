@@ -1,11 +1,10 @@
 ### day-22
-# pip install html5lib httpx pandas beautifulsoup4
+# pip install html5lib httpx beautifulsoup4
 
 from pathlib import Path
 import httpx
 from bs4 import BeautifulSoup, Tag
 import json
-import pandas as pd
 from typing import Dict, List, Any
 
 
@@ -32,70 +31,131 @@ def scrape_url(url: str):
 
 
 # 1
-def scrape_bu_facts() -> Dict[str, Dict[str, str]]:
+def scrape_bu_facts():
     url = "https://www.bu.edu/president/boston-university-facts-stats/"
 
     soup = scrape_url(url)
 
-    facts: Dict[str, Dict[str, str]] = {}
+    bu_stats = {}
 
-    # Find all stat sections
-    stat_sections = soup.find_all("section", {"class": "stat-section"})
+    stat_sections = soup.select("section.stat-section")
 
     for section in stat_sections:
-        if not isinstance(section, Tag):
+        section_title_elem = section.select_one("h4.stat-group-title")
+        if section_title_elem:
+            section_name = section_title_elem.text.strip()
+        else:
             continue
 
-        # Get section title
-        title = section.find("h4", {"class": "stat-group-title"})
-        if title and isinstance(title, Tag):
-            section_title = title.get_text(strip=True)
-            section_stats: Dict[str, str] = {}
+        bu_stats[section_name] = {}
 
-            # Find all list items with stats
-            stats = section.find_all("li")
-            for stat in stats:
-                if not isinstance(stat, Tag):
-                    continue
+        stat_list = section.select_one("ul.custom-stat-list")
+        if stat_list:
+            list_items = stat_list.select("li")
+            for item in list_items:
+                label_elem = item.select_one("span.stat-label")
+                figure_elem = item.select_one("span.stat-figure")
 
-                label = stat.find("span", {"class": "stat-label"})
-                figure = stat.find("span", {"class": "stat-figure"})
+                if label_elem and figure_elem:
+                    label = label_elem.text.strip()
+                    figure = figure_elem.get_text(strip=True)
+                    bu_stats[section_name][label] = figure
 
-                if (
-                    label
-                    and figure
-                    and isinstance(label, Tag)
-                    and isinstance(figure, Tag)
-                ):
-                    # Extract text and clean it
-                    stat_label = label.get_text(strip=True)
-                    stat_value = figure.get_text(strip=True)
-
-                    # Add to section stats dictionary
-                    section_stats[stat_label] = stat_value
-
-            # Add section to main facts dictionary if we found any stats
-            if section_stats:
-                facts[section_title] = section_stats
-
-    save_to_json(facts, "./outputs/bu_facts.json")
-    return facts
+    save_to_json(bu_stats, "./outputs/bu_facts.json")
+    return None
 
 
 scrape_bu_facts()
 
 
 # 2
-def scrape_uci_datasets() -> List[Dict[str, Any]]:
+def scrape_uci_datasets():
     try:
         url = "https://archive.ics.uci.edu/datasets"
 
-        response = scrape_url(url)
+        soup = scrape_url(url)
 
-        datasets: List[Dict[str, Any]] = []
+        dataset_container = soup.select_one("div.flex.flex-col.gap-1")
 
-        save_to_json(datasets, "./outputs/uci_datasets.json")
-        return datasets
+        if not dataset_container:
+            print("Could not find dataset container")
+            return []
+
+        # Find all dataset rows
+        dataset_rows = dataset_container.select('div[role="row"]')
+
+        print(f"Found {len(dataset_rows)} dataset entries")
+
+        datasets = []
+
+        # Process each dataset entry
+        for row in dataset_rows:
+            # Skip divider elements
+            if "divider" in row.get("class", []):
+                continue
+
+            # Get dataset name and URL
+            name_element = row.select_one("h2.truncate a")
+            if not name_element:
+                continue
+
+            name = name_element.text.strip()
+            url = "https://archive.ics.uci.edu" + name_element.get("href", "")
+
+            # Get dataset description
+            description_element = row.select_one("p.truncate")
+            description = (
+                description_element.text.strip() if description_element else ""
+            )
+
+            # Get dataset details (task type, data type, instances, features)
+            details = {}
+            detail_elements = row.select("div.col-span-3")
+
+            for detail in detail_elements:
+                label_element = detail.select_one("span.truncate")
+                if label_element:
+                    label = label_element.text.strip()
+                    # Look for different categories of information
+                    if (
+                        "Classification" in label
+                        or "Regression" in label
+                        or "Clustering" in label
+                    ):
+                        details["task_type"] = label
+                    elif (
+                        "Tabular" in label
+                        or "Multivariate" in label
+                        or "Time-Series" in label
+                    ):
+                        details["data_type"] = label
+                    elif "Instances" in label:
+                        # Extract the number of instances
+                        instances_text = label
+                        instances_match = re.search(r"([\d\.]+[KM]?)", instances_text)
+                        if instances_match:
+                            details["instances"] = instances_match.group(1)
+                        else:
+                            details["instances"] = instances_text
+                    elif "Features" in label:
+                        # Extract the number of features
+                        features_match = re.search(r"(\d+)", label)
+                        if features_match:
+                            details["features"] = features_match.group(1)
+                        else:
+                            details["features"] = label
+
+            # Create dataset entry
+            dataset_entry = {
+                "name": name,
+                "url": url,
+                "description": description,
+                **details,
+            }
+
+            datasets.append(dataset_entry)
+            save_to_json(datasets, "./outputs/uci_datasets.json")
+        return
     except Exception:
         print("exception happens")
 
