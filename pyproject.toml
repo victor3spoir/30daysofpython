@@ -8,4 +8,6 @@ dependencies = [
     "beautifulsoup4>=4.13.4",
     "html5lib>=1.1",
     "httpx>=0.28.1",
+    "matplotlib>=3.10.5",
+    "numpy>=2.3.2",
 ]
