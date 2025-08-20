@@ -1,0 +1,41 @@
+### Get all students
+GET http://localhost:5000/api/v1.0/students
+Accept: application/json
+
+###
+
+### Get a single student by ID
+GET http://localhost:5000/api/v1.0/students/68a61859d1c5a7c6ab88949a
+Accept: application/json
+
+###
+
+### Create a new student
+POST http://localhost:5000/api/v1.0/students
+Content-Type: application/x-www-form-urlencoded
+
+name=Jane Doe
+country=Canada-New
+city=Toronto-New;
+skills=Python, Data Science, Typescript
+bio=Data scientist
+birthyear=1996
+
+###
+
+### Update a student by ID
+PUT http://localhost:5000/api/v1.0/students/68a61859d1c5a7c6ab88949a
+Content-Type: application/x-www-form-urlencoded
+
+name=Jane Doe
+country=Canada-New
+city=Toronto-New
+skills=Python, Data Science, Typescript
+bio=Data scientist
+birthyear=1996
+
+###
+
+### Delete a student by ID
+DELETE http://localhost:5000/api/v1.0/students/68a6379994d894ee17f0f105
+Accept: application/json

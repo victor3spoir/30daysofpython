@@ -16,4 +16,5 @@ dependencies = [
 [tool.uv.workspace]
 members = [
     "day26/python_for_web",
+    "day29",
 ]
